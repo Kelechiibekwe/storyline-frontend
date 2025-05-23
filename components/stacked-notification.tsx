@@ -64,7 +64,7 @@ export const Notification = ({
       animate={{ y: 0, scale: 1, opacity: 1 }}
       exit={{ y: -25, scale: 0.9, opacity: 0 }}
       transition={{ type: "spring" }}
-      className="p-4 w-80 flex items-start rounded-lg gap-2 text-sm font-medium shadow-lg text-white bg-violet-600 fixed bottom-4 left-0 right-0 mx-auto z-50"
+      className="p-4 w-80 flex items-start rounded-lg gap-2 text-sm font-medium shadow-lg text-white bg-violet-900 fixed bottom-4 left-0 right-0 mx-auto z-50"
     >
       <span>{text}</span>
       <button onClick={() => removeNotif(id)} className="ml-auto mt-0.5">

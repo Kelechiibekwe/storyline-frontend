@@ -6,13 +6,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { X, Play, Pause, SkipBack, SkipForward } from "lucide-react"
 import type { PlaylistItem } from "@/types/music"
+import SaveButton from "@/components/SaveButton";
 
 interface MusicPlayerProps {
-  playlist: PlaylistItem[]
+  playlist: PlaylistItem[];
   onClose?: () => void
 }
 
 export default function MusicPlayer({ playlist, onClose = () => {} }: MusicPlayerProps) {
+
+  
+
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -25,10 +29,14 @@ export default function MusicPlayer({ playlist, onClose = () => {} }: MusicPlaye
 
   const handleTimeUpdate = useCallback(() => {
     if (audioRef.current && !isScrubbing) {
-      setCurrentTime(audioRef.current.currentTime)
-      setProgress((audioRef.current.currentTime / currentSong.duration) * 100)
+      const current = audioRef.current.currentTime
+      const dur = audioRef.current.duration
+      setCurrentTime(current)
+      if (!isNaN(dur) && dur > 0) {
+        setProgress((current / dur) * 100)
+      }
     }
-  }, [currentSong.duration, isScrubbing])
+  }, [isScrubbing])
 
   const handleEnded = useCallback(() => {
     setIsPlaying(false)
@@ -38,6 +46,8 @@ export default function MusicPlayer({ playlist, onClose = () => {} }: MusicPlaye
   }, [])
 
   useEffect(() => {
+    if (playlist.length === 0) return
+
     const audio = new Audio(currentSong.audioUrl)
     audioRef.current = audio
 
@@ -55,6 +65,16 @@ export default function MusicPlayer({ playlist, onClose = () => {} }: MusicPlaye
       audio.src = ""
     }
   }, [currentSong, handleTimeUpdate, handleEnded])
+
+  if (playlist.length === 0) {
+    return (
+      <Card className="w-full max-w-md mx-auto">
+        <CardContent className="text-center">
+          <p>No songs available</p>
+        </CardContent>
+      </Card>
+    )
+  }
 
   const togglePlayPause = async () => {
     if (!audioRef.current) return
@@ -123,15 +143,15 @@ export default function MusicPlayer({ playlist, onClose = () => {} }: MusicPlaye
 
   return (
     <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-xl font-bold">Your Stories</CardTitle>
+      {/* <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"> */}
         {/* <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 rounded-full">
           <X className="h-4 w-4" />
-        </Button> */}
-      </CardHeader>
-      <CardContent className="space-y-6">
+          </Button> */}
+      {/* </CardHeader> */}
+      <CardContent className="p-6 space-y-6">
         <div className="text-center space-y-1">
-          <h3 className="text-lg font-semibold leading-none">{currentSong.title}</h3>
+          <p className="text-sm font-medium text-muted-foreground">Your Stories</p>
+          <h3 className="text-md font-semibold leading-none">{currentSong.title}</h3>
           <p className="text-xs text-muted-foreground">{currentSong.createdAt}</p>
         </div>
         <div className="space-y-2">
@@ -166,8 +186,8 @@ export default function MusicPlayer({ playlist, onClose = () => {} }: MusicPlaye
             </Button>
           </div>
         </div>
+        <div><SaveButton/></div>
       </CardContent>
     </Card>
   )
 }
-

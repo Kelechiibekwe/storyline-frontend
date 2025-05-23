@@ -6,55 +6,124 @@ import { Loader2, Check, Sun, Moon, Sparkles } from "lucide-react"
 import confetti from "canvas-confetti"
 import { cn } from "@/utils/cn"
 
-export default function SaveButton() {
-  const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle")
-  const [bounce, setBounce] = useState(false)
+const STORAGE_KEY = "podcastGenerationState"
+const POLL_INTERVAL = 5000
 
-  const userId = 1;
+const FLASK_API_URL = process.env.NEXT_PUBLIC_FLASK_API_URL || 'http://127.0.0.1:5000'
+
+export default function SaveButton() {
+  const [bounce, setBounce] = useState(false);
+  const userId = 1
+
+  const [status, setStatus] = useState<"idle" | "generating" | "generated">(() => {
+    const item = localStorage.getItem(STORAGE_KEY);
+    if (!item) return "idle";
+    try {
+      const parsed = JSON.parse(item) as { status: "idle" | "generating" | "generated"; requestId: string | null };
+      return parsed.status;
+    } catch {
+      return "idle";
+    }
+  })
+
+  const [requestId, setRequestId] = useState<string | null>(() => {
+    const item = localStorage.getItem(STORAGE_KEY);
+    if (!item) return null;
+    try {
+      const parsed = JSON.parse(item) as { status: string; requestId: string | null };
+      return parsed.requestId;
+    } catch {
+      return null;
+    }
+  });
+  
+  useEffect(() => {
+    if (status !== "idle") {
+      console.log("Status is generated to the local storage", status)
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ status, requestId })
+      );
+    }
+    if (status === "generating" && requestId) {
+      const intervalId = setInterval(async () => {
+        try {
+          const response = await fetch(`${FLASK_API_URL}/v1/podcasts/status/${requestId}`)
+          
+          if (!response.ok) {
+            throw new Error(`Error checking status: ${response.statusText}`)
+          }
+          
+          const data = await response.json()
+          console.log("Checking podcast status:", data)
+          
+          if (data.status === "completed") {
+            triggerSuccess()
+            clearInterval(intervalId)
+          } else if (data.status === "failed") {
+            console.error("Podcast generation failed:", data.error || "Unknown error")
+            resetState()
+            clearInterval(intervalId)
+          }          
+        } catch (error) {
+          console.error("Error checking podcast status:", error)
+        }
+      }, POLL_INTERVAL)
+      
+      return () => clearInterval(intervalId)
+    }
+  }, [status, requestId])
+
+  const triggerSuccess = () => {
+    setStatus("generated")
+    setBounce(true)
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#00ffff", "#ff00ff"],
+      shapes: ["star", "circle"],
+    })
+
+    setTimeout(() => {
+      resetState()
+    }, 2000)
+  }
+
+  const resetState = () => {
+    setStatus("idle")
+    setRequestId(null)
+    setBounce(false)
+    localStorage.removeItem(STORAGE_KEY)
+  }
 
   const handleSave = async () => {
     if (status === "idle") {
-      setStatus("saving");
-
-      try {
-        const response = await fetch(`http://127.0.0.1:5000/v1/podcasts/${userId}`, {
-          method: "POST",
-        });
+      setStatus("generating")
+      try {     
+      
+        const response = await fetch(`${FLASK_API_URL}/v1/podcasts/request_id/${userId}`, {
+          method: "GET",
+        })
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+          throw new Error(`Error: ${response.statusText}`)
         }
 
-        const data = await response.json();
-        console.log("Podcast generated:", data);
+        const data = await response.json()
 
-        setStatus("saved");
-        setBounce(true);
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: [
-            "#ff0000",
-            "#00ff00",
-            "#0000ff",
-            "#ffff00",
-            "#00ffff",
-            "#ff00ff",
-          ],
-          shapes: ["star", "circle"],
-        });
+        setRequestId(data.request_id)
+        
+        // If the backend returns an immediate completion (unlikely)
+        if (data === "completed") {
+          triggerSuccess()
+        }
       } catch (error) {
-        console.error("Error generating podcast:", error);
-        setStatus("idle");
-      } finally {
-        setTimeout(() => {
-          setStatus("idle");
-          setBounce(false);
-        }, 2000);
+        console.error("Error starting podcast generation:", error)
+        resetState()
       }
     }
-  };
+  }
 
   const buttonVariants = {
     idle: {
@@ -62,12 +131,12 @@ export default function SaveButton() {
       color: "black",
       scale: 1,
     },
-    saving: {
+    generating: {
       backgroundColor: "rgb(59, 130, 246)",
       color: "white",
       scale: 1,
     },
-    saved: {
+    generated: {
       backgroundColor: "rgb(34, 197, 94)",
       color: "white",
       scale: [1, 1.1, 1],
@@ -76,7 +145,7 @@ export default function SaveButton() {
         times: [0, 0.5, 1],
       },
     },
-  };
+  }
 
   const sparkleVariants = {
     initial: { opacity: 0, scale: 0 },
@@ -85,9 +154,7 @@ export default function SaveButton() {
   }
 
   return (
-    <div
-      className={`flex flex-col items-center justify-center gap-4 transition-colors duration-300 `}
-    >
+    <div className="flex flex-col items-center justify-center gap-4 transition-colors duration-300">
       <div className="relative">
         <div className="relative">
           <motion.button
@@ -99,11 +166,12 @@ export default function SaveButton() {
               status === "idle"
                 ? "shadow-[0_1000px_0_0_hsl(0_0%_85%)_inset] dark:shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset]"
                 : "",
-              "hover:shadow-lg",
+              "hover:shadow-lg"
             )}
             style={{ minWidth: "150px" }}
             whileHover={status === "idle" ? { scale: 1.05 } : {}}
             whileTap={status === "idle" ? { scale: 0.95 } : {}}
+            disabled={status !== "idle"}
           >
             {status === "idle" && (
               <span>
@@ -112,7 +180,7 @@ export default function SaveButton() {
                     "spark mask-gradient absolute inset-0 h-[100%] w-[100%] animate-flip overflow-hidden rounded-full",
                     "[mask:linear-gradient(black,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:bg-[conic-gradient(from_0deg,transparent_0_340deg,black_360deg)]",
                     "before:rotate-[-90deg] before:animate-rotate dark:before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)]",
-                    "before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%] dark:[mask:linear-gradient(white,_transparent_50%)]",
+                    "before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%] dark:[mask:linear-gradient(white,_transparent_50%)]"
                   )}
                 />
               </span>
@@ -122,14 +190,14 @@ export default function SaveButton() {
                 "backdrop absolute inset-px rounded-[22px] transition-colors duration-200",
                 status === "idle"
                   ? "bg-neutral-100 group-hover:bg-neutral-200 dark:bg-neutral-950 dark:group-hover:bg-neutral-900"
-                  : "",
+                  : ""
               )}
             />
             <span className="z-10 flex items-center justify-center gap-2 text-sm font-medium">
               <AnimatePresence mode="wait">
-                {status === "saving" && (
+                {status === "generating" && (
                   <motion.span
-                    key="saving"
+                    key="generating"
                     initial={{ opacity: 0, rotate: 0 }}
                     animate={{ opacity: 1, rotate: 360 }}
                     exit={{ opacity: 0 }}
@@ -141,9 +209,9 @@ export default function SaveButton() {
                     <Loader2 className="w-4 h-4" />
                   </motion.span>
                 )}
-                {status === "saved" && (
+                {status === "generated" && (
                   <motion.span
-                    key="saved"
+                    key="generated"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
@@ -159,7 +227,11 @@ export default function SaveButton() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                {status === "idle" ? "Generate podcast!" : status === "saving" ? "Working on it..." : "Podcast ready!"}
+                {status === "idle"
+                  ? "Generate new story!"
+                  : status === "generating"
+                  ? "Working on it..."
+                  : "Podcast ready!"}
               </motion.span>
             </span>
           </motion.button>
@@ -181,4 +253,3 @@ export default function SaveButton() {
     </div>
   )
 }
-

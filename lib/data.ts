@@ -9,7 +9,7 @@ export const links = [
     hash: "/journal",
   },
   {
-    name: "Podcasts",
+    name: "Stories",
     hash: "/podcast",
   },
 ] as const;
