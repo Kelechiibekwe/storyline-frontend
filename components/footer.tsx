@@ -1,22 +1,20 @@
-export function Footer() {
+import React from "react";
+
+export default function Footer() {
   return (
-    <footer className="border-t py-4 w-full bg-background/50 backdrop-blur-sm">
-      <div className="container text-center text-sm text-muted-foreground">
-        <div className="py-4">
-          <div className="leading-loose">
-            Built by{" "}
-            <a
-              href="https://ehtisham.vercel.app"
+    <footer className="mb-10 px-4 text-center text-gray-500">
+      <p className="text-xs">
+        <span className="font-semibold">Built By </span> 
+        <a
+              href="https://kelechiibekwe.com"
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              Ehtisham Afzal
+              Kelechi Ibekwe
             </a>{" "}
-          </div>
-        </div>
-      </div>
+        using lots of willpower.
+      </p>
     </footer>
-  )
+  );
 }
-

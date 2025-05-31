@@ -491,9 +491,9 @@ export function RichTextEditorDemo({
 
   return (
     // <div className={cn("flex flex-col md:flex-row w-full h-full", className)}>
-    <div className="flex flex-col md:flex-row w-full h-screen justify-center items-start gap-10 px-4">
+    <div className="flex flex-col md:flex-row w-full justify-center items-start gap-10 px-4">
       {/* <div className="flex-grow max-w-3xl relative overflow-hidden border bg-card shadow-lg rounded-xl"> */}
-      <div className="flex-grow w-full md:w-[750px] h-[600px] relative overflow-hidden border bg-card shadow-lg rounded-xl">
+      <div className="w-full md:w-[950px] max-h-[calc(100dvh-5.75rem)] sm:h-[calc(100dvh-12rem)] relative overflow-hidden border bg-card shadow-lg rounded-xl">
         <EditorToolbar editor={editor} />
         <div ref={editorRef} className="overflow-y-auto h-[calc(100%-50px)] relative">
           {" "}
@@ -557,7 +557,7 @@ export function RichTextEditorDemo({
         <FloatingToolbar editor={editor} />
         <TipTapFloatingMenu editor={editor} />
       </div>
-      <div className="w-full md:w-[320px] h-[600px] mt-4 md:mt-0 shadow-lg rounded-xl">
+      <div className="hidden lg:block w-full md:w-[320px] h-[calc(100dvh-12rem)] flex-grow mt-4 md:mt-0 shadow-lg rounded-xl">
       {/* <div className="w-full md:w-80 mt-4 md:mt-0 md:ml-4 shadow-lg flex-grow rounded-xl"> */}
         <EntryHistory entries={entries} onEntryClick={handleEntryClick} onDeleteEntry={handleDeleteEntryFromParent} currentEntryId={currentEntryId} />
       </div>

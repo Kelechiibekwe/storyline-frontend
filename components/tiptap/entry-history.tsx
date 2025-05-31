@@ -143,7 +143,7 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry,  onDeleteEntry
   }
 
   return (
-    <Card className="w-full md:w-80 h-full relative overflow-hidden">
+    <Card className="w-full md:w-80 flex-grow h-full relative overflow-hidden">
       <CardHeader className="space-y-2 pb-2">
         <div className="flex items-center justify-between">
           <CardTitle>Journals</CardTitle>
@@ -210,7 +210,7 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry,  onDeleteEntry
         )}
       </CardHeader>
       <CardContent className="p-0">
-        <div className="relative h-[480px]" ref={containerRef}>
+        <div className="relative h-[calc(100dvh-20rem)]" ref={containerRef}>
           <ScrollArea className="h-full">
             <div className="px-4 space-y-4 pb-4">
               {filteredEntries.length > 0 ? (
