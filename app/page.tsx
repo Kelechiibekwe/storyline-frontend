@@ -16,6 +16,8 @@ import {motion} from "framer-motion";
 import FeatureShowcase from "@/components/feature-showcase"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import CollapseCardFeatures from "@/components/collapsed-features"
+import {Box} from "@/components/spinning-box"
+import { ArrowDown } from "lucide-react"
 
 export default function LandingPage() {
   return (
@@ -35,31 +37,41 @@ export default function LandingPage() {
 }
 
 function HeroSection() {
+  const scrollToAbout = () => {
+    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+  }
+  
   return (
     <section
       id="hero"
       // className="w-full py-20 sm:py-24 lg:py-32 xl:py-48"
-      className="w-full py-20 sm:py-24 lg:py-32 xl:py-48"
+      className="relative grid min-h-screen place-content-center overflow-hidden px-4 py-24"
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+      {/* <div className="container mx-auto px-4 md:px-6"> */}
+        {/* <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]"> */}
           
-          {/* Left column: headline, description, buttons */}
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Capture Your Thoughts, Discover Your Story
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                Storyline is your personal journaling companion — helping you
-                reflect, grow, and stay mindful, one entry at a time.
-              </p>
-            </div>
+          <div className="relative z-10 flex flex-col items-center">
+          {/* <div className="space-y-4 md:space-y-6 text-center"> */}
+            <span className="mb-2 inline-block rounded-full bg-green-600/50 px-3 py-1.5 text-green-900 text-sm">
+              Beta Now Live!
+            </span>
+            <h1 className="flex flex-col items-center justify-center text-center text-4xl sm:text-6xl font-bold tracking-tight gap-2">
+              <span>Capture Your Thoughts,</span>
+              <span className="inline-flex items-center justify-center gap-2 flex-col sm:flex-row">
+              <span>Discover Your</span>
+              <Box front="Story" back="Voice" top="Path" bottom="Self" />
+            </span>
+            </h1>
+            
+            <p className="mx-auto max-w-[650px] text-muted-foreground text-center md:text-xl">
+              MyStoryLog is your personal journaling companion — helping you reflect, grow, and stay mindful, one entry at a time.
+            </p>
+          </div>
 
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            <div className="mt-8 flex gap-3 justify-center">
               <Link
                 href="/login"
-                className="group flex h-10 items-center gap-2 rounded-full bg-gray-900 text-white px-4 transition-all duration-300 ease-in-out hover:bg-white hover:px-2 hover:text-black active:bg-neutral-200"
+                className="group flex h-10 items-center gap-2 rounded-full bg-gray-900 text-white px-4 transition-all duration-300 ease-in-out hover:bg-gray-200 hover:px-2 hover:text-black active:bg-neutral-200"
               >
                 <span className="rounded-full bg-white p-1 text-sm transition-colors duration-300 group-hover:bg-black">
                   <FiArrowRight className="-translate-x-[200%] text-[0px] transition-all duration-300 group-hover:translate-x-0 group-hover:text-lg group-hover:text-white group-active:-rotate-45" />
@@ -67,7 +79,7 @@ function HeroSection() {
                 <span>Get Started for Free</span>
               </Link>
 
-              <Link
+              {/* <Link
                 href="#demo"
                 className="group flex h-10 items-center gap-2 rounded-full bg-white px-4 transition-all duration-300 ease-in-out hover:bg-black hover:px-2 hover:text-white active:bg-neutral-700"
               >
@@ -75,12 +87,12 @@ function HeroSection() {
                   <FiArrowRight className="-translate-x-[200%] text-[0px] transition-all duration-300 group-hover:translate-x-0 group-hover:text-lg group-hover:text-black group-active:-rotate-45" />
                 </span>
                 <span>Learn More</span>
-              </Link>
+              </Link> */}
             </div>
-          </div>
+          {/* </div> */}
 
           {/* Right column: illustration image */}
-          <div>
+          {/* <div>
             <Image
               src="/exams-Illustration.svg"
               width={550}
@@ -88,11 +100,20 @@ function HeroSection() {
               alt="Relaxed individual writing in a notebook at a desk"
               className="mx-auto overflow-visible rounded-xl sm:w-full lg:order-last"
             />
-          </div>
+          </div> */}
 
-        </div>
-      </div>
-      
+        {/* </div> */}
+      {/* </div> */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <Button variant="ghost" size="icon" onClick={scrollToAbout} className="animate-bounce">
+          <ArrowDown className="h-6 w-6" />
+        </Button>
+      </motion.div>
     </section>
   );
 }

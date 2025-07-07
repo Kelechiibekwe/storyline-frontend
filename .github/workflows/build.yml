@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    # skip builds on direct pushes to main
+    branches-ignore:
+      - main
+  pull_request:
+    # runs for PR events (including those targeting main)
+    # omit branches filter so all PRs are built
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        # grabs your code so the runner can work with it
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+        # installs Node 18 and caches npm modules between runs
+
+      - name: Install dependencies
+        run: npm ci
+        # `npm ci` is faster & more reliable than `npm install` in CI
+
+      - name: Lint code
+        run: npm run lint
+        # catches style or syntax issues (skip or adjust if you don't have a lint script)
+
+      - name: Build Next.js application
+        run: npm run build
+        # compiles your Next.js site for production

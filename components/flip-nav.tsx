@@ -22,7 +22,7 @@ const FlipNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="fixed top-0 left-0 w-full z-[1000] p-4 sm:hidden flex items-center justify-between">
-      <Logo />
+      <p className="font-bold text-gray-900">MyStoryLog</p>
       <NavRight setIsOpen={setIsOpen} />
       <NavMenu isOpen={isOpen} />
     </nav>
