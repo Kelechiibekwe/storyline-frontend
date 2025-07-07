@@ -204,7 +204,7 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry, onDeleteEntry,
         {activeThemes.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {activeThemes.map((theme) => (
-              <Badge key={theme} variant="secondary" className="cursor-pointer" onClick={() => toggleTheme(theme)}>
+              <Badge key={theme} variant="default" className="cursor-pointer" onClick={() => toggleTheme(theme)}>
                 {theme} ×
               </Badge>
             ))}
