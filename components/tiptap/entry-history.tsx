@@ -238,7 +238,7 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry, onDeleteEntry,
                                 onClick={(e) => {
                                   // Stop event propagation to avoid triggering the onClick on the card.
                                   e.stopPropagation();
-                                  onDeleteEntry(entry.id);
+                                  onDeleteEntry?.(entry.id);
                                 }}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

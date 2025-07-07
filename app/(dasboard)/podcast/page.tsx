@@ -1,12 +1,9 @@
 "use client"
 
-import Image from "next/image";
-
 import MusicPlayer from "@/components/music-player";  
 import {PodcastHistory} from "@/components/podcast-history";
 import { useState, useEffect } from "react"
 import type { PlaylistItem } from "@/types/music"
-import { PacmanLoader } from "react-spinners"
 
 
 export default function Home() {
