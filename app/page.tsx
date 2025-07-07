@@ -108,7 +108,7 @@ function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-20 sm:bottom-8 left-1/2 -translate-x-1/2"
       >
         <Button variant="ghost" size="icon" onClick={scrollToAbout} className="animate-bounce">
           <ArrowDown className="h-6 w-6" />
@@ -116,14 +116,4 @@ function HeroSection() {
       </motion.div>
     </section>
   );
-}
-
-function BouncingArrow() {
-  return (
-    <div className="flex justify-center w-full sm:py-2 md:py-4 lg:py-8">
-      <div className="bg-primary/10 rounded-full p-1">
-          <ChevronDown className="h-6 w-6 text-primary" />
-      </div>
-    </div>
-  )
 }
