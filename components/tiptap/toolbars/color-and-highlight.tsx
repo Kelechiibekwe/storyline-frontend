@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { useToolbar } from "./toolbar-provider"
 import type { Extension } from "@tiptap/core"
@@ -74,10 +74,13 @@ export const ColorHighlightToolbar = () => {
   const { editor } = useToolbar()
   const isMobile = useMediaQuery("(max-width: 640px)")
 
-  const currentColor = editor?.getAttributes("textStyle").color
-  const currentHighlight = editor?.getAttributes("highlight").color
+  // Safely get attributes with fallbacks
+  const currentColor = editor?.getAttributes("textStyle")?.color || ""
+  const currentHighlight = editor?.getAttributes("highlight")?.color || ""
 
   const handleSetColor = (color: string) => {
+    if (!editor?.can().chain().setColor("").run()) return
+
     editor
       ?.chain()
       .focus()
@@ -86,6 +89,8 @@ export const ColorHighlightToolbar = () => {
   }
 
   const handleSetHighlight = (color: string) => {
+    if (!editor?.can().chain().setHighlight().run()) return
+
     editor
       ?.chain()
       .focus()
@@ -128,57 +133,58 @@ export const ColorHighlightToolbar = () => {
   }
 
   return (
-    <Popover>
-      <div className="relative h-full">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <PopoverTrigger disabled={isDisabled} asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                style={{
-                  color: currentColor,
-                }}
-                className={cn("h-8 w-14 p-0 font-normal")}
-              >
-                <span className="text-md">A</span>
-                <ChevronDownIcon className="ml-2 h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-          </TooltipTrigger>
-          <TooltipContent>Text Color & Highlight</TooltipContent>
-        </Tooltip>
+    <TooltipProvider>
+      <Popover>
+        <div className="relative h-full">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger disabled={isDisabled} asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  style={{
+                    color: currentColor,
+                  }}
+                  className={cn("h-8 w-14 p-0 font-normal")}
+                >
+                  <span className="text-md">A</span>
+                  <ChevronDownIcon className="ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>Text Color & Highlight</TooltipContent>
+          </Tooltip>
 
-        <PopoverContent align="start" className="w-56 p-1 dark:bg-gray-2">
-          <ScrollArea className="max-h-80 overflow-y-auto pr-2">
-            <div className="mb-2.5 mt-2 px-2 text-xs text-gray-11">Color</div>
-            {TEXT_COLORS.map(({ name, color }) => (
-              <ColorHighlightButton
-                key={name}
-                name={name}
-                color={color}
-                isActive={currentColor === color}
-                onClick={() => handleSetColor(color)}
-              />
-            ))}
+          <PopoverContent align="start" className="w-56 p-1 dark:bg-gray-2">
+            <ScrollArea className="max-h-80 overflow-y-auto pr-2">
+              <div className="mb-2.5 mt-2 px-2 text-xs text-gray-11">Color</div>
+              {TEXT_COLORS.map(({ name, color }) => (
+                <ColorHighlightButton
+                  key={name}
+                  name={name}
+                  color={color}
+                  isActive={currentColor === color}
+                  onClick={() => handleSetColor(color)}
+                />
+              ))}
 
-            <Separator className="my-3" />
+              <Separator className="my-3" />
 
-            <div className="mb-2.5 w-full px-2 pr-3 text-xs text-gray-11">Background</div>
-            {HIGHLIGHT_COLORS.map(({ name, color }) => (
-              <ColorHighlightButton
-                key={name}
-                name={name}
-                color={color}
-                isActive={currentHighlight === color}
-                onClick={() => handleSetHighlight(color)}
-                isHighlight
-              />
-            ))}
-          </ScrollArea>
-        </PopoverContent>
-      </div>
-    </Popover>
+              <div className="mb-2.5 w-full px-2 pr-3 text-xs text-gray-11">Background</div>
+              {HIGHLIGHT_COLORS.map(({ name, color }) => (
+                <ColorHighlightButton
+                  key={name}
+                  name={name}
+                  color={color}
+                  isActive={currentHighlight === color}
+                  onClick={() => handleSetHighlight(color)}
+                  isHighlight
+                />
+              ))}
+            </ScrollArea>
+          </PopoverContent>
+        </div>
+      </Popover>
+    </TooltipProvider>
   )
 }
-

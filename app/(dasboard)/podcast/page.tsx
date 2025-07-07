@@ -12,12 +12,12 @@ import { PacmanLoader } from "react-spinners"
 export default function Home() {
     const [playlist, setPlaylist] = useState<PlaylistItem[]>([])
     const [loading, setLoading] = useState(true)
-
-    const userId = 1;
   
     useEffect(() => {
       const fetchPlaylist = async () => {
-        const response = await fetch(`http://127.0.0.1:5000/v1/podcasts/${userId}`)
+        const response = await fetch(`http://127.0.0.1:5000/v1/podcasts`,{
+          credentials: "include",
+        })
         const data = await response.json()
         setPlaylist(data)
         setLoading(false)
@@ -75,8 +75,10 @@ export default function Home() {
       //   )}
       // </div>
       <div>
-      <div className="mx-auto flex flex-col items-center gap-6 max-w-xl">
+      <div className="mx-auto flex flex-col items-center justify-center gap-6 w-full px-4">
+        <div className="">
            <MusicPlayer playlist={playlist} />
+           </div>
            <PodcastHistory history={history} onPlayEpisode={handlePlayEpisode} />
          </div></div>
     )

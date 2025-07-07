@@ -48,7 +48,10 @@ export default function SaveButton() {
     if (status === "generating" && requestId) {
       const intervalId = setInterval(async () => {
         try {
-          const response = await fetch(`${FLASK_API_URL}/v1/podcasts/status/${requestId}`)
+          const response = await fetch(`${FLASK_API_URL}/v1/podcasts/status/${requestId}`,{
+              credentials: "include",
+            }
+          )
           
           if (!response.ok) {
             throw new Error(`Error checking status: ${response.statusText}`)
@@ -104,6 +107,7 @@ export default function SaveButton() {
       
         const response = await fetch(`${FLASK_API_URL}/v1/podcasts/request_id/${userId}`, {
           method: "GET",
+          credentials: "include",
         })
 
         if (!response.ok) {

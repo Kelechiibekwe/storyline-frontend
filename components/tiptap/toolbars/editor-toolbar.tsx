@@ -17,10 +17,8 @@ import { BulletListToolbar } from "./bullet-list"
 import { OrderedListToolbar } from "./ordered-list"
 import { HorizontalRuleToolbar } from "./horizontal-rule"
 import { AlignmentTooolbar } from "./alignment"
-import { ImagePlaceholderToolbar } from "./image-placeholder-toolbar"
-import { ColorHighlightToolbar } from "./color-and-highlight"
-import { SearchAndReplaceToolbar } from "./search-and-replace-toolbar"
 import { CodeBlockToolbar } from "./code-block"
+import { SimpleImageToolbar } from "@/components/tiptap/toolbars/simple-image"
 
 export const EditorToolbar = ({ editor }: { editor: Editor }) => {
   return (
@@ -60,15 +58,10 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
                 <AlignmentTooolbar />
                 <Separator orientation="vertical" className="mx-1 h-7" />
 
-                {/* Media & Styling Group */}
-                <ImagePlaceholderToolbar />
-                <ColorHighlightToolbar />
-                <Separator orientation="vertical" className="mx-1 h-7" />
+                {/* Media Group */}
+                <SimpleImageToolbar />
 
                 <div className="flex-1" />
-
-                {/* Utility Group */}
-                <SearchAndReplaceToolbar />
               </div>
             </div>
             <ScrollBar className="hidden" orientation="horizontal" />
@@ -78,4 +71,3 @@ export const EditorToolbar = ({ editor }: { editor: Editor }) => {
     </div>
   )
 }
-

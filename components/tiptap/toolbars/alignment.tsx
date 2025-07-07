@@ -1,8 +1,7 @@
 "use client"
 
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Check, ChevronDown } from "lucide-react"
+import { AlignCenter, AlignLeft, AlignRight, ChevronDown } from "lucide-react"
 import { useMediaQuery } from "@/hooks/use-media-querry"
-import { MobileToolbarGroup, MobileToolbarItem } from "./mobile-toolbar-group"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -12,17 +11,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 import { useToolbar } from "./toolbar-provider"
 
 export const AlignmentTooolbar = () => {
   const { editor } = useToolbar()
   const isMobile = useMediaQuery("(max-width: 640px)")
+
   const handleAlign = (value: string) => {
     editor?.chain().focus().setTextAlign(value).run()
   }
 
-  const isDisabled = editor?.isActive("image") ?? editor?.isActive("video") ?? !editor ?? false
+  const isDisabled = !editor
 
   const currentTextAlign = () => {
     if (editor?.isActive({ textAlign: "left" })) {
@@ -34,83 +34,55 @@ export const AlignmentTooolbar = () => {
     if (editor?.isActive({ textAlign: "right" })) {
       return "right"
     }
-    if (editor?.isActive({ textAlign: "justify" })) {
-      return "justify"
-    }
-
     return "left"
   }
 
   const alignmentOptions = [
     {
-      name: "Left Align",
+      name: "Left",
       value: "left",
       icon: <AlignLeft className="h-4 w-4" />,
     },
     {
-      name: "Center Align",
+      name: "Center",
       value: "center",
       icon: <AlignCenter className="h-4 w-4" />,
     },
     {
-      name: "Right Align",
+      name: "Right",
       value: "right",
       icon: <AlignRight className="h-4 w-4" />,
     },
-    {
-      name: "Justify Align",
-      value: "justify",
-      icon: <AlignJustify className="h-4 w-4" />,
-    },
   ]
 
-  const findIndex = (value: string) => {
-    return alignmentOptions.findIndex((option) => option.value === value)
-  }
-
-  if (isMobile) {
-    return (
-      <MobileToolbarGroup label={alignmentOptions[findIndex(currentTextAlign())]?.name ?? "Left Align"}>
-        {alignmentOptions.map((option, index) => (
-          <MobileToolbarItem
-            key={index}
-            onClick={() => handleAlign(option.value)}
-            active={currentTextAlign() === option.value}
-          >
-            <span className="mr-2">{option.icon}</span>
-            {option.name}
-          </MobileToolbarItem>
-        ))}
-      </MobileToolbarGroup>
-    )
-  }
+  const currentAlignment = alignmentOptions.find((option) => option.value === currentTextAlign()) || alignmentOptions[0]
 
   return (
-    <DropdownMenu>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger disabled={isDisabled} asChild>
-            <Button variant="ghost" size="sm" className="h-8 w-max font-normal">
-              <span className="mr-2">{alignmentOptions[findIndex(currentTextAlign())]?.icon}</span>
-              {alignmentOptions[findIndex(currentTextAlign())]?.name}
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-        </TooltipTrigger>
-        <TooltipContent>Text Alignment</TooltipContent>
-      </Tooltip>
-      <DropdownMenuContent align="start">
-        <DropdownMenuGroup>
-          {alignmentOptions.map((option, index) => (
-            <DropdownMenuItem key={index} onSelect={() => handleAlign(option.value)}>
-              <span className="mr-2">{option.icon}</span>
-              {option.name}
-              {option.value === currentTextAlign() && <Check className="ml-auto h-4 w-4" />}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <TooltipProvider>
+      <DropdownMenu>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger disabled={isDisabled} asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-max font-normal">
+                <span className="mr-2">{currentAlignment.icon}</span>
+                {currentAlignment.name}
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent>Text Alignment</TooltipContent>
+        </Tooltip>
+        <DropdownMenuContent>
+          <DropdownMenuGroup>
+            {alignmentOptions.map((option) => (
+              <DropdownMenuItem key={option.value} onSelect={() => handleAlign(option.value)}>
+                <span className="mr-2">{option.icon}</span>
+                {option.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </TooltipProvider>
   )
 }
-

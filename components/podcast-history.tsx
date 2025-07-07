@@ -47,7 +47,7 @@ export function PodcastHistory({ history, onPlayEpisode }: PodcastHistoryProps) 
           />
         )}
 
-        <ScrollArea className="h-[500px] pr-4">
+        <ScrollArea className="h-[40vh] md:max-h-[calc(100dvh-40rem)] pr-4">
           <div className="space-y-3">
             {filteredHistory.map((episode) => (
               <div key={episode.id} className="group p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">

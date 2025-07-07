@@ -32,7 +32,7 @@ interface EntryHistoryProps {
 
 const FLASK_API_URL = process.env.NEXT_PUBLIC_FLASK_API_URL || 'http://127.0.0.1:5000'
 
-export function EntryHistory({ entries, onEntryClick, onNewEntry,  onDeleteEntry, currentEntryId }: EntryHistoryProps) {
+export function EntryHistory({ entries, onEntryClick, onNewEntry, onDeleteEntry, currentEntryId }: EntryHistoryProps) {
   // At the beginning of the EntryHistory function, add a null check for entries
   const containerRef = useRef<HTMLDivElement>(null)
   const [showTopArrow, setShowTopArrow] = useState(false)
@@ -105,31 +105,33 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry,  onDeleteEntry
     }
   }, [handleScroll])
 
-  const handleDeleteEntry = async (entry: Entry) => {
-    // Optional: Ask the user for confirmation before deletion.
-    if (!window.confirm("Are you sure you want to delete this entry?")) {
-      return
-    }
-    try {
-      // Construct the API endpoint with entry's userId and id.
-      const response = await fetch(
-        `${FLASK_API_URL}/v1/entries/${entry.id}`,
-        {
-          method: "DELETE",
-        }
-      )
-      if (!response.ok) {
-        throw new Error("Failed to delete entry")
-      }
+  // const handleDeleteEntry = async (entry: Entry) => {
+  //   // Optional: Ask the user for confirmation before deletion.
+  //   if (!window.confirm("Are you sure you want to delete this entry?")) {
+  //     return
+  //   }
+  //   try {
+  //     // Construct the API endpoint with entry's userId and id.
+  //     const response = await fetch(
+  //       `${FLASK_API_URL}/v1/entries/${entry.id}`,
+  //       {
+  //         method: "DELETE",
+  //       }
+  //     )
+
+  //     console.log("Delete response message: ", response.status, response.statusText)
+  //     if (!response.ok) {
+  //       throw new Error("Failed to delete entry 1")
+  //     }
       // Update the UI: If you use a parent callback to refresh the entries,
       // call it here. Otherwise, you can update local state if you had one.
-      if (onDeleteEntry) {
-        onDeleteEntry(entry.id)
-      }
-    } catch (error) {
-      console.error("Error deleting entry:", error)
-    }
-  }
+      // if (onDeleteEntry) {
+      //   onDeleteEntry(entry.id)
+      // }
+  //   } catch (error) {
+  //     console.error("Error deleting entry:", error)
+  //   }
+  // }
 
   const toggleTheme = (theme: string) => {
     setActiveThemes((prev) => (prev.includes(theme) ? prev.filter((t) => t !== theme) : [...prev, theme]))
@@ -217,8 +219,11 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry,  onDeleteEntry
                 filteredEntries.map((entry) => (
                   <Card
                     key={entry.id}
-                    className="cursor-pointer hover:bg-accent transition-colors group"
                     onClick={() => onEntryClick(entry)}
+                    className={cn(
+                      "cursor-pointer group hover:bg-accent transition-colors",
+                      entry.id === currentEntryId && "bg-accent/20"
+                    )}
                   >
                     <CardHeader className="flex flex-row items-center justify-between">
                       <CardTitle className="text-xs text-muted-foreground">{entry.createdAt}</CardTitle>
@@ -232,8 +237,8 @@ export function EntryHistory({ entries, onEntryClick, onNewEntry,  onDeleteEntry
                           <DropdownMenuItem className="text-destructive"
                                 onClick={(e) => {
                                   // Stop event propagation to avoid triggering the onClick on the card.
-                                  e.stopPropagation()
-                                  handleDeleteEntry(entry)
+                                  e.stopPropagation();
+                                  onDeleteEntry(entry.id);
                                 }}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

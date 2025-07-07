@@ -3,7 +3,12 @@ import type { Editor } from "@tiptap/core"
 export const NODE_HANDLES_SELECTED_STYLE_CLASSNAME = "node-handles-selected-style"
 
 export function isValidUrl(url: string) {
-  return /^https?:\/\/\S+$/.test(url)
+  try {
+    new URL(url)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export const duplicateContent = (editor: Editor) => {
@@ -39,9 +44,9 @@ export function getUrlFromString(str: string) {
   } catch {
     return null
   }
+  return null
 }
 
 export function absoluteUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
+  return `${process.env.NEXT_PUBLIC_APP_URL || ""}${path}`
 }
-
