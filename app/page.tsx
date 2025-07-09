@@ -64,13 +64,13 @@ function HeroSection() {
             </h1>
             
             <p className="mx-auto max-w-[650px] text-muted-foreground text-center md:text-xl">
-              MyStoryLog is your personal journaling companion — helping you reflect, grow, and stay mindful, one entry at a time.
+              My StoryLog is your personal journaling companion — helping you reflect, grow, and stay mindful, one entry at a time.
             </p>
           </div>
 
             <div className="mt-8 flex gap-3 justify-center">
               <Link
-                href="/login"
+                href="/sign-in"
                 className="group flex h-10 items-center gap-2 rounded-full bg-gray-900 text-white px-4 transition-all duration-300 ease-in-out hover:bg-gray-200 hover:px-2 hover:text-black active:bg-neutral-200"
               >
                 <span className="rounded-full bg-white p-1 text-sm transition-colors duration-300 group-hover:bg-black">

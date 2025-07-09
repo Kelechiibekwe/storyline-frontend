@@ -19,10 +19,6 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("Home");
 
 
-  const apiUrl = process.env.NEXT_PUBLIC_FLASK_API_URL || "http://127.0.0.1:5000";
-  const handleLogin = useCallback(() => {
-    window.location.href = `${apiUrl}/login`;
-  }, [apiUrl]);
 
   return (
     <header className="z-[999] relative">
@@ -68,12 +64,11 @@ export default function Header() {
           // initial={{ y: -100, opacity: 0 }}
           // animate={{ y: 0, opacity: 1 }}
         >
-          <button
-            onClick={handleLogin}
-            className="flex items-center justify-center h-10 px-6 bg-gray-900 shadow-md rounded-full text-white transition hover:bg-gray-700"
-          >
-            Login
-          </button>
+          <Link href="/sign-in">
+            <button className="flex items-center justify-center h-10 px-6 bg-gray-900 shadow-md rounded-full text-white transition hover:bg-gray-700">
+              Login
+            </button>
+          </Link>
         </motion.li>
         </ul>
       </nav>

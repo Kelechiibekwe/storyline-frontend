@@ -22,7 +22,7 @@ const FlipNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="fixed top-0 left-0 w-full z-[1000] p-4 sm:hidden flex items-center justify-between">
-      <p className="font-bold text-gray-900">MyStoryLog</p>
+      <p className="font-bold text-gray-900">My StoryLog</p>
       <NavRight setIsOpen={setIsOpen} />
       <NavMenu isOpen={isOpen} />
     </nav>
@@ -60,7 +60,7 @@ const NavMenu = ({ isOpen }: { isOpen: boolean }) => {
     >
       <MenuLink text="Home" href="#home"/>
       <MenuLink text="Features" href="#features"/>
-      <MenuLink text="Login" href="/login"/>
+      <MenuLink text="Login" href="/sign-in"/>
     </motion.div>
   );
 };

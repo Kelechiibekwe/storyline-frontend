@@ -12,6 +12,7 @@ import {
   import { motion } from "framer-motion";
   import { Dispatch, SetStateAction, useState } from "react";
   import { IconType } from "react-icons";
+  import { useClerk } from "@clerk/nextjs";
 
   type StaggeredDropDownProps = {
     open: boolean;
@@ -20,11 +21,7 @@ import {
   
 
   const StaggeredDropDown = ({ open, setOpen }: StaggeredDropDownProps) => {
-
-    const apiUrl = process.env.NEXT_PUBLIC_FLASK_API_URL || "http://127.0.0.1:5000";
-    const handleLogOut = useCallback(() => {
-      window.location.href = `${apiUrl}/logout`;
-    }, [apiUrl]);
+    const clerk = useClerk();
   
     return (
       <div className="flex p-2 items-center justify-center">
@@ -49,7 +46,7 @@ import {
             {/* <div className="border-t border-border my-1" /> */}
             {/* <Option setOpen={setOpen} Icon={FiPlusSquare} text="Duplicate" /> */}
             <Option setOpen={setOpen} Icon={FiSettings} text="Settings" />
-            <Option setOpen={setOpen} Icon={FiLogOut} text="Logout" onClick={handleLogOut}/>
+            <Option setOpen={setOpen} Icon={FiLogOut} text="Logout" onClick={() => clerk.signOut()} />
           </motion.ul>
         </motion.div>
       </div>
