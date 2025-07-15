@@ -38,10 +38,9 @@ const NavbarMobileDashboard: React.FC<NavbarMobileDashboardProps> = ({}) => {
       {/* Tab Navigation */}
       <div className="flex gap-6">
         <button className="pb-2 border-b-2 border-blue-500 text-blue-600 font-medium">
-          List
+          Journal
         </button>
-        <button className="pb-2 text-gray-500 font-medium">Calendar</button>
-        <button className="pb-2 text-gray-500 font-medium">Tags</button>
+        <button className="pb-2 text-gray-500 font-medium">Stories</button>
       </div>
     </div>
   );

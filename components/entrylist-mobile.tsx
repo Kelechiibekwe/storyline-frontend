@@ -1,6 +1,8 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   MapPin,
   Plus,
@@ -128,46 +130,56 @@ const EntrylistMobile: React.FC<EntrylistMobileProps> = (
 
   return (
     <div>
-      {Object.entries(groupedEntries).map(([monthYear, entries]) => (
-        <div key={monthYear}>
-          <h2 className="font-semibold text-gray-900 mb-3">{monthYear}</h2>
-          <div className="space-y-3">
-            {entries.map((entry) => (
-              <Card
-                key={entry.id}
-                className="bg-white border border-gray-200 hover:shadow-md transition-shadow"
-              >
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-1">
-                    {entry.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                    {entry.preview}
-                  </p>
-                  <div className="flex items-center gap-4 text-xs text-gray-500">
-                    <span>{entry.date}</span>
-                    <span>{entry.time}</span>
-                    {entry.location && (
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        <span className="truncate max-w-24">
-                          {entry.location}
-                        </span>
-                      </div>
-                    )}
-                    {entry.weather && (
-                      <div className="flex items-center gap-1">
-                        {getWeatherIcon(entry.weather)}
-                        <span>{entry.weather}</span>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+      <ScrollArea className="flex-1">
+        {Object.entries(groupedEntries).map(([monthYear, entries]) => (
+          <div key={monthYear}>
+            <h2 className="font-semibold text-gray-900 mb-3">{monthYear}</h2>
+            <div className="space-y-3">
+              {entries.map((entry) => (
+                <Card
+                  key={entry.id}
+                  className="bg-white border border-gray-200 hover:shadow-md transition-shadow"
+                >
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-1">
+                      {entry.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                      {entry.preview}
+                    </p>
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <span>{entry.date}</span>
+                      <span>{entry.time}</span>
+                      {entry.location && (
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          <span className="truncate max-w-24">
+                            {entry.location}
+                          </span>
+                        </div>
+                      )}
+                      {entry.weather && (
+                        <div className="flex items-center gap-1">
+                          {getWeatherIcon(entry.weather)}
+                          <span>{entry.weather}</span>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </ScrollArea>
+
+      {/* Floating Action Button */}
+      <Button
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-blue-500 hover:bg-blue-600 shadow-lg"
+        size="icon"
+      >
+        <Plus className="w-6 h-6" />
+      </Button>
     </div>
   );
 };
