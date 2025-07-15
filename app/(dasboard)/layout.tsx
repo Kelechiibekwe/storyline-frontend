@@ -1,12 +1,24 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import NavbarMobileDashboard from "@/components/NavbarMobileDashboard";
 
-export default function AppSectionLayout({ children }: { children: React.ReactNode }) {
+export default function AppSectionLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div>
-      <Header/>
-      <main className="pt-16 sm:pt-36 pb-4 sm:pb-16">{children}</main>
-      <Footer/>
+      {/* Mobile View */}
+      <header className="block md:hidden">
+        <NavbarMobileDashboard />
+      </header>
+      {/* Desktop View */}
+      <header className="hidden md:block">
+        <Header />
+      </header>
+      <main className=" sm:pt-36 pb-4 sm:pb-16">{children}</main>
+      <Footer />
     </div>
   );
 }
