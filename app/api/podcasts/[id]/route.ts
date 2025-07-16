@@ -1,10 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = Number.parseInt(params.id);
+  const { id } = await params;
+  const episodeId = Number.parseInt(id);
 
   // Dummy podcast data - in a real app this would come from a database
   const podcasts = [
@@ -30,7 +31,7 @@ export async function GET(
     },
   ];
 
-  const podcast = podcasts.find((p) => p.id === id);
+  const podcast = podcasts.find((p) => p.id === episodeId);
 
   if (!podcast) {
     return NextResponse.json({ error: "Podcast not found" }, { status: 404 });

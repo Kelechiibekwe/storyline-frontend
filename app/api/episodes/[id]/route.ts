@@ -1,39 +1,50 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+// export async function PUT(
+//   request: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   const { progress, currentTime } = await request.json();
+//   const episodeId = params.id;
+
+//   // Simulate saving progress to database
+//   await new Promise((resolve) => setTimeout(resolve, 150));
+
+//   return NextResponse.json({
+//     success: true,
+//     episodeId: Number.parseInt(episodeId),
+//     progress,
+//     currentTime,
+//     message: "Progress saved successfully",
+//   });
+// }
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // ← note the Promise here
+) {
+  const { id } = await params; // ← await the params
+  const episodeId = Number.parseInt(id);
+
+  // …fetch from DB, etc.
+  return NextResponse.json({ episodeId });
+}
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // ← same change here
 ) {
+  const { id } = await params;
+  const episodeId = Number.parseInt(id);
   const { progress, currentTime } = await request.json();
-  const episodeId = params.id;
 
-  // Simulate saving progress to database
-  await new Promise((resolve) => setTimeout(resolve, 150));
+  // …save progress …
 
   return NextResponse.json({
     success: true,
-    episodeId: Number.parseInt(episodeId),
+    episodeId,
     progress,
     currentTime,
     message: "Progress saved successfully",
   });
-}
-
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const episodeId = Number.parseInt(params.id);
-
-  // Simulate fetching progress from database
-  const progressData = {
-    episodeId,
-    progress: Math.floor(Math.random() * 100), // Random progress for demo
-    currentTime: Math.floor(Math.random() * 1800), // Random time up to 30 minutes
-    lastUpdated: new Date().toISOString(),
-  };
-
-  await new Promise((resolve) => setTimeout(resolve, 200));
-
-  return NextResponse.json(progressData);
 }
