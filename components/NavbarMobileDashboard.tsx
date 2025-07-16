@@ -15,7 +15,7 @@ const NavbarMobileDashboard: React.FC<NavbarMobileDashboardProps> = ({}) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <Avatar className="w-10 h-10">
-            <AvatarImage src="/placeholder-user.jpg" alt="User" />
+            <AvatarImage src="/avatar.png" alt="User" />
             <AvatarFallback className="bg-blue-500 text-white">
               JD
             </AvatarFallback>
