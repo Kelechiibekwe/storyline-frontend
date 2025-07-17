@@ -1,6 +1,9 @@
+"use client";
+
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import NavbarMobileDashboard from "@/components/NavbarMobileDashboard";
+import { useState, useEffect } from "react";
 
 export default function AppSectionLayout({
   children,
