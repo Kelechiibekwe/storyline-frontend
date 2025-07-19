@@ -1,37 +1,49 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { motion } from "framer-motion";
-import { Dispatch, SetStateAction, useState } from "react";
+import Image from "next/image";
+import { MotionConfig, motion } from "framer-motion";
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
 import { FiMenu, FiArrowRight } from "react-icons/fi";
-
-const Logo = () => {
-    // Temp logo from https://logoipsum.com/
-    return (
-      <Image
-      src="/logo.svg"
-      width={25}
-      height={25}
-      alt="Relaxed individual writing in a notebook at a desk"
-      // className="mx-auto overflow-visible rounded-xl sm:w-full lg:order-last"
-    />
-    );
-  };
+import Hamburger from "hamburger-react";
 
 const FlipNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const closeOpenMenu = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (isOpen && menuRef.current && !menuRef.current.contains(target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("click", closeOpenMenu);
+    return () => {
+      document.removeEventListener("click", closeOpenMenu);
+    };
+  }, [isOpen]);
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-[1000] p-4 sm:hidden flex items-center justify-between">
+    <nav
+      className="shadow-black/[0.03] 
+          backdrop-blur-[0.5rem] border 
+          border-white 
+          shadow-lg fixed top-0 left-0 w-full 
+          z-[1000] h-[3.5rem] px-4 py-2
+         bg-white/80 sm:hidden flex items-center justify-between"
+    >
       <p className="font-bold text-gray-900">My StoryLog</p>
-      <NavRight setIsOpen={setIsOpen} />
-      <NavMenu isOpen={isOpen} />
+      <NavRight isOpen={isOpen} setIsOpen={setIsOpen} />
+      <NavMenu isOpen={isOpen} menuRef={menuRef} />
     </nav>
   );
 };
 
 const NavRight = ({
+  isOpen,
   setIsOpen,
 }: {
+  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
@@ -39,42 +51,53 @@ const NavRight = ({
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="block text-gray-950 text-2xl"
-        onClick={() => setIsOpen((pv) => !pv)}
+        className="block text-gray-950"
+        // onClick={() => setIsOpen((pv) => !pv)}
       >
-        <FiMenu />
+        <Hamburger size={21} toggled={isOpen} toggle={setIsOpen} />
+
+        {/* <FiMenu /> */}
       </motion.button>
     </div>
   );
 };
 
-
-const NavMenu = ({ isOpen }: { isOpen: boolean }) => {
+const NavMenu = ({
+  isOpen,
+  menuRef,
+}: {
+  isOpen: boolean;
+  menuRef: React.RefObject<HTMLDivElement>;
+}) => {
   return (
     <motion.div
+      ref={menuRef}
+      onClick={(e) => e.stopPropagation()}
       variants={menuVariants}
       initial="closed"
       animate={isOpen ? "open" : "closed"}
-      className="absolute p-4 bg-white shadow-lg shadow-black/[0.03] bg-opacity-80 backdrop-blur-[0.5rem] left-0 right-0 top-full origin-top flex flex-col gap-4"
+      className="absolute isolate px-4 py-2 bg-white shadow-lg shadow-black/[0.03] bg-opacity-80 backdrop-blur-[0.5rem] left-0 right-0 top-full origin-top flex flex-col gap-4"
       // className="absolute p-4 border-white border-opacity-40 bg-white shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem] left-0 right-0 top-full origin-top flex flex-col gap-4"
     >
-      <MenuLink text="Home" href="#home"/>
-      <MenuLink text="Features" href="#features"/>
-      <MenuLink text="Login" href="/sign-in"/>
+      <MenuLink text="Home" href="#hero" />
+      <MenuLink text="Features" href="#features" />
+      <MenuLink text="Login" href="/sign-in" />
     </motion.div>
   );
 };
 
-const MenuLink = ({ text, href }: { text: string, href:string }) => {
+const MenuLink = ({ text, href }: { text: string; href: string }) => {
   return (
-    <motion.a 
+    <motion.a
       variants={menuLinkVariants}
       rel="nofollow"
       href={href}
       className="h-[30px] overflow-hidden font-medium flex items-start gap-2"
     >
-      <div >
-        <span className="flex items-center h-[30px] text-gray-500 hover:text-indigo-600">{text}</span>
+      <div>
+        <span className="flex items-center h-[30px] hover:text-indigo-600">
+          {text}
+        </span>
       </div>
     </motion.a>
   );
@@ -109,7 +132,6 @@ const menuLinkVariants = {
     opacity: 0,
   },
 };
-
 
 const menuLinkArrowVariants = {
   open: {

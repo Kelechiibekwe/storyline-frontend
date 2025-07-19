@@ -10,7 +10,7 @@ import {
   FiTool,
   FiUpload,
 } from "react-icons/fi";
-import { FiEdit, FiMessageCircle, FiMic, FiHeadphones } from 'react-icons/fi';
+import { FiEdit, FiMessageCircle, FiMic, FiHeadphones } from "react-icons/fi";
 
 const CollapseCardFeatures = () => {
   const [position, setPosition] = useState(0);
@@ -28,7 +28,7 @@ const CollapseCardFeatures = () => {
   };
 
   return (
-    <section id="features" className="overflow-hidden px-4 py-12">
+    <section id="features" className="overflow-hidden px-4 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex justify-between gap-4">
           <h2 className="text-4xl font-bold leading-[1.2] md:text-5xl">
@@ -98,28 +98,28 @@ const Feature = ({
 export default CollapseCardFeatures;
 
 const features = [
-    {
-      title: "Podcast Your Life",
-      Icon: FiHeadphones,
-      description:
-        "Transform your daily journals into podcasts—your thoughts, now streaming.",
-    },
-    {
-      title: "Prompts That Get You",
-      Icon: FiEdit,
-      description:
-        "Thoughtful, personalized prompts—never stare at an empty page again.",
-    },
-    {
-      title: "Reflect, Interact, Grow",
-      Icon: FiMessageCircle ,
-      description:
-        "Engage deeper with interactive journaling that sparks meaningful reflection.",
-    },
-    {
-      title: "Real Voices",
-      Icon: FiMic,
-      description:
-        "Ultra-realistic text-to-speech turns your entries into lifelike narrations.",
-    },
-  ];
+  {
+    title: "Podcast Your Life",
+    Icon: FiHeadphones,
+    description:
+      "Transform your daily journals into podcasts—your thoughts, now streaming.",
+  },
+  {
+    title: "Prompts That Get You",
+    Icon: FiEdit,
+    description:
+      "Thoughtful, personalized prompts—never stare at an empty page again.",
+  },
+  {
+    title: "Reflect, Interact, Grow",
+    Icon: FiMessageCircle,
+    description:
+      "Engage deeper with interactive journaling that sparks meaningful reflection.",
+  },
+  {
+    title: "Real Voices",
+    Icon: FiMic,
+    description:
+      "Ultra-realistic text-to-speech turns your entries into lifelike narrations.",
+  },
+];
