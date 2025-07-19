@@ -59,7 +59,7 @@ export default function LandingPage() {
 
 function HeroSection() {
   const scrollToAbout = () => {
-    document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -150,7 +150,10 @@ function HeroSection() {
 
 function AboutSection() {
   return (
-    <div className="info relative flex gap-4 justify-center px-4 py-24 sm:px-[20rem] items-center flex-wrap max-w-fit mx-auto">
+    <div
+      id="about"
+      className="info relative flex gap-4 justify-center px-4 py-24 sm:px-[20rem] items-center flex-wrap max-w-fit mx-auto"
+    >
       <div className="text-[1.75rem] sm:text-[2.5rem] leading-tight sm:leading-[3.5rem] font-medium">
         <Reveal>
           <p>
