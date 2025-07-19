@@ -151,11 +151,11 @@ function HeroSection() {
 function AboutSection() {
   return (
     <div className="info relative flex gap-4 justify-center px-4 py-24 sm:px-[20rem] items-center flex-wrap max-w-fit mx-auto">
-      <div className="text-[1.75rem] sm:text-[2.5rem] sm:leading-[3.5rem] font-medium">
+      <div className="text-[1.75rem] sm:text-[2.5rem] leading-tight sm:leading-[3.5rem] font-medium">
         <Reveal>
           <p>
             Life rushes by in fragments, barely noticed, barely felt. But
-            there’s meaning tucked inside the blur
+            there’s meaning tucked inside the blur.
             <br />
             <br />
           </p>
