@@ -164,16 +164,13 @@ function AboutSection() {
           <p>
             MyStoryLog helps you slow down and listen. Speak your thoughts,
             follow gentle prompts, and rediscover your voice, one entry at a
-            time.
+            time. It’s not about writing more. It’s about feeling more.
             <br />
             <br />
           </p>
         </Reveal>
         <Reveal>
-          <p>
-            It’s not about writing more. It’s about feeling more. Welcome to the
-            new rhythm of reflection.
-          </p>
+          <p>Welcome to the new rhythm of reflection.</p>
         </Reveal>
       </div>
     </div>
