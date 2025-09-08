@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@clerk/nextjs";
 import { RichTextEditorDemo } from "@/components/tiptap/rich-text-editor";
 import { Entry } from "@/types/entry";
 import { EntryHistory } from "@/components/tiptap/entry-history";
@@ -16,7 +17,9 @@ const FLASK_API_URL =
 
 export default function Home() {
   const { toast } = useToast();
+  const { getToken, userId } = useAuth();
   const [entries, setEntries] = useState<Entry[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentEntryId, setCurrentEntryId] = useState<number | null>(null);
   const [isNewEntry, setIsNewEntry] = useState(true);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -31,22 +34,23 @@ export default function Home() {
 
   useEffect(() => {
     if (!mounted) return;
-
-    // Replace the current history entry (which might be the callback) with the homepage
-    window.history.replaceState(null, "", "/");
-    // Push the journal page onto the history stack
-    window.history.pushState(null, "", "/journal");
-
-    console.log("history is manipulated");
-
     async function fetchEntries() {
       try {
+        setIsLoading(true);
+        const token = await getToken();
+
         const res = await fetch(`${FLASK_API_URL}/v1/entries`, {
           credentials: "include",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         });
         if (!res.ok) throw new Error("Failed to load entries");
         const data = await res.json();
         setEntries(Array.isArray(data) ? data : data.entries);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
         toast({
@@ -75,6 +79,7 @@ export default function Home() {
   }, []);
 
   const handleEntryClick = useCallback((entry: Entry) => {
+    console.log(`current entry.id  is: ${entry.id}`);
     setCurrentEntryId(entry.id);
     setIsNewEntry(false);
   }, []);
@@ -108,7 +113,7 @@ export default function Home() {
     [currentEntryId, toast]
   );
 
-  if (!mounted) {
+  if (!mounted || isLoading) {
     // On the *very first server render*, just render an empty placeholder
     // so that the HTML matches on the client before hydration.
     return (
@@ -121,7 +126,13 @@ export default function Home() {
   if (!isDesktop) {
     return (
       <div className="p-6 text-gray-500">
-        <EntrylistMobile />
+        <EntrylistMobile
+          key={entries.map((e) => e.id).join(",")}
+          entries={entries}
+          onEntryClick={handleEntryClick}
+          onDeleteEntry={handleDeleteEntry}
+          currentEntryId={currentEntryId}
+        />
       </div>
     );
   }

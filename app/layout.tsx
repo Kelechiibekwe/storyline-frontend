@@ -50,6 +50,7 @@ export default function RootLayout({
         <head>
           <title>My StoryLog</title>
           <meta property="og:image" content="/capture_your_thoughts.png" />
+          <link rel="manifest" content="/manifest.json" />
         </head>
         <body
           className={`${inter.className} bg-gray-50 text-gray-950 relative`}
