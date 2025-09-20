@@ -83,7 +83,7 @@ export function PodcastHistory({
 
   return (
     <div className="bg-white w-full rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-4 md:p-6 space-y-4">
+      <div className="px-2 py-4 md:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900 p-3">
             {/* <History className="w-5 h-5 text-primary" /> */}
@@ -117,7 +117,7 @@ export function PodcastHistory({
         )}
 
         <ScrollArea className="h-[60vh] lg:h-[75vh]">
-          <div className="space-y-3 pb-4">
+          <div className="pb-4">
             {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
@@ -136,7 +136,7 @@ export function PodcastHistory({
                 {filteredHistory.map((episode, index) => (
                   <div
                     key={episode.id}
-                    className="group p-1 sm:p-4 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200 hover:shadow-sm"
+                    className="group px-2 py-4 sm:p-4 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200 hover:shadow-sm"
                   >
                     <div className="flex justify-between items-center">
                       <div className="flex items-center space-x-4 flex-1 min-w-0">

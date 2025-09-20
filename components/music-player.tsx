@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
 import {
   Play,
   Pause,
@@ -266,13 +267,13 @@ const MusicPlayer = forwardRef<HTMLDivElement, MusicPlayerProps>(
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10 rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="h-10 w-10 rounded-full bg-gray-800 hover:bg-gray-950"
                   onClick={togglePlayPause}
                 >
                   {isPlaying ? (
-                    <Pause className="h-5 w-5" />
+                    <Pause className="h-5 w-5 text-white" />
                   ) : (
-                    <Play className="h-5 w-5" />
+                    <Play className="h-5 w-5 text-white" />
                   )}
                 </Button>
                 {/* <Button
