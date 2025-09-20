@@ -116,7 +116,7 @@ export function PodcastHistory({
           />
         )}
 
-        <ScrollArea className="h-[60vh] lg:h-[75vh] pr-4">
+        <ScrollArea className="h-[60vh] lg:h-[75vh]">
           <div className="space-y-3 pb-4">
             {loading ? (
               <div className="text-center py-12">
@@ -138,13 +138,13 @@ export function PodcastHistory({
                     key={episode.id}
                     className="group p-1 sm:p-4 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200 hover:shadow-sm"
                   >
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-start space-x-4 flex-1 min-w-0">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center space-x-4 flex-1 min-w-0">
                         <div className="relative">
                           <img
                             src={episode.imageUrl || "/placeholder.svg"}
                             alt={episode.title}
-                            className="w-14 h-14 rounded-xl object-cover flex-shrink-0 shadow-sm"
+                            className="w-10 h-10 rounded-xl object-cover flex-shrink-0 shadow-sm"
                           />
                           {index < 3 && (
                             <div className="absolute -top-1 -right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
@@ -153,19 +153,19 @@ export function PodcastHistory({
                           )}
                         </div>
                         <div className="space-y-1 flex-1 min-w-0">
-                          <p className="font-semibold group-hover:text-primary truncate pr-2 text-gray-900">
+                          <p className="font-semibold text-sm group-hover:text-primary truncate pr-2 text-gray-900">
                             {episode.title}
                           </p>
-                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                          {/* <div className="flex items-center gap-2 text-xs text-gray-500">
                             <Clock className="w-3 h-3 flex-shrink-0" />
                             <span>{episode.lastPlayed}</span>
-                          </div>
-                          <div className="flex items-center justify-between text-sm text-gray-500">
+                          </div> */}
+                          <div className="flex items-center justify-between text-xs text-gray-500">
                             <span className="font-medium">
                               {episode.duration}
                             </span>
-                            <div className="flex items-center gap-2">
-                              <div className="w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                            {/* <div className="flex items-center gap-2">
+                              <div className="w-10 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                                 <div
                                   className="h-full bg-primary rounded-full transition-all duration-300"
                                   style={{ width: `${episode.progress}%` }}
@@ -174,12 +174,12 @@ export function PodcastHistory({
                               <span className="text-xs text-gray-400 font-medium">
                                 {episode.progress}%
                               </span>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Button
+                        {/* <Button
                           variant="ghost"
                           size="icon"
                           className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700"
@@ -190,11 +190,11 @@ export function PodcastHistory({
                           title="Add to Up Next"
                         >
                           <Plus className="w-4 h-4" />
-                        </Button>
+                        </Button> */}
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 h-10 w-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white"
+                          className="flex-shrink-0 h-10 w-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white"
                           onClick={() => onPlayEpisode(episode.id)}
                         >
                           <PlayCircle className="w-5 w-5" />

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import type { PlaylistItem } from "@/types/music";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { motion } from "framer-motion";
 
 interface MusicPlayerProps {
   playlist: PlaylistItem[];
@@ -274,18 +275,18 @@ const MusicPlayer = forwardRef<HTMLDivElement, MusicPlayerProps>(
                     <Play className="h-5 w-5" />
                   )}
                 </Button>
-                <Button
+                {/* <Button
                   variant="ghost"
                   size="icon"
                   className="h-8 w-8 rounded-full"
-                  onClick={() => setIsExpanded(!isExpanded)}
+                  onClick={() => setIsExpanded((pv) => !pv)}
                 >
                   {isExpanded ? (
                     <ChevronDown className="h-4 w-4" />
                   ) : (
                     <ChevronUp className="h-4 w-4" />
                   )}
-                </Button>
+                </Button> */}
               </div>
             </div>
 
@@ -303,7 +304,8 @@ const MusicPlayer = forwardRef<HTMLDivElement, MusicPlayerProps>(
             </div>
 
             {/* Expanded view for mobile - Up Next Queue */}
-            {isExpanded && (
+            {/* Temporarily disabled expanded to list to manage project scope */}
+            {/* {isExpanded && (
               <div className="p-4 pt-0 space-y-4 border-t border-gray-100">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">
@@ -396,7 +398,7 @@ const MusicPlayer = forwardRef<HTMLDivElement, MusicPlayerProps>(
                   </div>
                 </ScrollArea>
               </div>
-            )}
+            )} */}
           </div>
 
           {/* Desktop View */}
