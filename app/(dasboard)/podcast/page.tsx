@@ -6,6 +6,8 @@ import { GeneratePodcastButton } from "@/components/generate-podcast-button";
 import { useState, useEffect, useRef } from "react";
 import type { PlaylistItem } from "@/types/music";
 import SaveButton from "@/components/SaveButton";
+import { Loader } from "lucide-react";
+import { BarLoader } from "react-spinners";
 
 type HistoryItem = {
   id: number;
@@ -85,20 +87,20 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <BarLoader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-[80svh] relative">
       {/* Main content area */}
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto p-4 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
           {/* Left side - Main content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Header with Generate Button */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            {/* <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                   Your Podcasts
@@ -108,7 +110,7 @@ export default function Home() {
                 </p>
               </div>
               <SaveButton />
-            </div>
+            </div> */}
 
             <PodcastHistory
               history={history}

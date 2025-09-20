@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Plus,
 } from "lucide-react";
+import SaveButton from "./SaveButton";
 
 type HistoryItem = {
   id: number;
@@ -84,13 +85,14 @@ export function PodcastHistory({
     <div className="bg-white w-full rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="p-4 md:p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold flex items-center gap-2 text-gray-900">
-            <History className="w-5 h-5 text-primary" />
-            Recent Episodes
-            <span className="text-sm font-normal text-gray-500">
+          <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900 p-3">
+            {/* <History className="w-5 h-5 text-primary" /> */}
+            Your Stories
+            {/* <span className="text-sm font-normal text-gray-500">
               ({history.length})
-            </span>
-          </h2>
+            </span> */}
+          </h1>
+          {/* <SaveButton /> */}
           <Button
             variant="ghost"
             size="sm"
@@ -134,7 +136,7 @@ export function PodcastHistory({
                 {filteredHistory.map((episode, index) => (
                   <div
                     key={episode.id}
-                    className="group p-4 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200 hover:shadow-sm"
+                    className="group p-1 sm:p-4 rounded-xl hover:bg-gray-50 transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200 hover:shadow-sm"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex items-start space-x-4 flex-1 min-w-0">

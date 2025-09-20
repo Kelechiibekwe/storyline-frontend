@@ -50,7 +50,6 @@ export default function Home() {
         if (!res.ok) throw new Error("Failed to load entries");
         const data = await res.json();
         setEntries(Array.isArray(data) ? data : data.entries);
-        setIsLoading(false);
       } catch (error) {
         console.error(error);
         toast({
@@ -58,6 +57,8 @@ export default function Home() {
           description: "Failed to load entries. Please try again later.",
           variant: "destructive",
         });
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchEntries();

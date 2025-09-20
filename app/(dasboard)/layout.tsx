@@ -21,7 +21,7 @@ export default function AppSectionLayout({
         <Header />
       </header>
       <main className=" sm:pt-36 pb-4 sm:pb-16">{children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
