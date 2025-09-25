@@ -43,7 +43,7 @@ export const LoadAndErrorButton = () => {
     <motion.button
       disabled={variant !== "neutral"}
       onClick={handleClick}
-      className={`relative rounded-2xl px-3 py-1 font-medium text-white text-sm transition-all ${classNames}`}
+      className={`relative rounded-full px-4 py-2 font-medium text-white text-sm transition-all ${classNames}`}
     >
       <motion.span
         animate={{
@@ -52,8 +52,8 @@ export const LoadAndErrorButton = () => {
         }}
         className="flex flex-row gap-1 items-center"
       >
-        <Plus size={14} />
-        Create New Story
+        <Plus size={16} />
+        New Story
       </motion.span>
       <IconOverlay Icon={FiLoader} visible={variant === "loading"} spin />
       <IconOverlay Icon={FiX} visible={variant === "error"} />

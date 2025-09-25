@@ -85,31 +85,44 @@ export function PodcastHistory({
   return (
     <div className="bg-white w-full rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="px-2 py-4 md:p-6 space-y-4">
-        <div className="flex items-center justify-between px-3">
-          <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900">
-            {/* <History className="w-5 h-5 text-primary" /> */}
-            Your Stories
-            {/* <span className="text-sm font-normal text-gray-500">
+        <div className="flex flex-col gap-1 px-3">
+          <div className="flex items-center justify-between ">
+            <h1 className="text-3xl font-bold flex items-center gap-2 text-gray-900">
+              {/* <History className="w-5 h-5 text-primary" /> */}
+              Your Stories
+              {/* <span className="text-sm font-normal text-gray-500">
               ({history.length})
             </span> */}
-          </h1>
-          <LoadAndErrorButton />
-          {/* <Button
-            variant="ghost"
-            size="sm"
-            className="text-gray-500 hover:text-gray-700"
-            onClick={() => setShowSearch(!showSearch)}
-          >
-            {showSearch ? (
-              <X className="h-4 w-4" />
-            ) : (
-              <Search className="h-4 w-4" />
-            )}
-          </Button> */}
+            </h1>
+            {/* <LoadAndErrorButton /> */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-500 hover:text-gray-700"
+              onClick={() => setShowSearch(!showSearch)}
+            >
+              {showSearch ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Search className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <div className="flex items-center">
+              <img
+                src="/placeholder.svg"
+                className="w-3 h-3 rounded object-cover"
+              />
+            </div>
+            <p className="flex items-center text-xs text-muted-foreground">
+              18h 50m
+            </p>
+          </div>
         </div>
-        {/* <div className="px-2">
+        <div className="px-2">
           <LoadAndErrorButton />
-        </div> */}
+        </div>
 
         <div className="mx-4 my-3">
           <div className="border-t border-border" />
