@@ -14,6 +14,7 @@ import {
   Plus,
 } from "lucide-react";
 import SaveButton from "./SaveButton";
+import { LoadAndErrorButton } from "./load-button";
 
 type HistoryItem = {
   id: number;
@@ -84,16 +85,16 @@ export function PodcastHistory({
   return (
     <div className="bg-white w-full rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="px-2 py-4 md:p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900 p-3">
+        <div className="flex items-center justify-between px-3">
+          <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900">
             {/* <History className="w-5 h-5 text-primary" /> */}
             Your Stories
             {/* <span className="text-sm font-normal text-gray-500">
               ({history.length})
             </span> */}
           </h1>
-          {/* <SaveButton /> */}
-          <Button
+          <LoadAndErrorButton />
+          {/* <Button
             variant="ghost"
             size="sm"
             className="text-gray-500 hover:text-gray-700"
@@ -104,7 +105,14 @@ export function PodcastHistory({
             ) : (
               <Search className="h-4 w-4" />
             )}
-          </Button>
+          </Button> */}
+        </div>
+        {/* <div className="px-2">
+          <LoadAndErrorButton />
+        </div> */}
+
+        <div className="mx-4 my-3">
+          <div className="border-t border-border" />
         </div>
 
         {showSearch && (

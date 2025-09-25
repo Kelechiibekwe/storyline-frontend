@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { FiCheck, FiLoader, FiX } from "react-icons/fi";
@@ -20,10 +21,10 @@ export const LoadAndErrorButton = () => {
     variant === "neutral"
       ? "bg-indigo-500 hover:bg-indigo-600"
       : variant === "error"
-        ? "bg-red-500"
-        : variant === "success"
-          ? "bg-green-500"
-          : "bg-indigo-300 pointer-events-none";
+      ? "bg-red-500"
+      : variant === "success"
+      ? "bg-green-500"
+      : "bg-indigo-300 pointer-events-none";
 
   const handleClick = () => {
     if (variant !== "neutral") return;
@@ -42,16 +43,17 @@ export const LoadAndErrorButton = () => {
     <motion.button
       disabled={variant !== "neutral"}
       onClick={handleClick}
-      className={`relative rounded-md px-4 py-2 font-medium text-white transition-all ${classNames}`}
+      className={`relative rounded-2xl px-3 py-1 font-medium text-white text-sm transition-all ${classNames}`}
     >
       <motion.span
         animate={{
           y: variant === "neutral" ? 0 : 6,
           opacity: variant === "neutral" ? 1 : 0,
         }}
-        className="inline-block"
+        className="flex flex-row gap-1 items-center"
       >
-        Click Me and Wait
+        <Plus size={14} />
+        Create New Story
       </motion.span>
       <IconOverlay Icon={FiLoader} visible={variant === "loading"} spin />
       <IconOverlay Icon={FiX} visible={variant === "error"} />
