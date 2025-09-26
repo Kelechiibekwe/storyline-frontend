@@ -87,8 +87,8 @@ export function PodcastHistory({
 
   return (
     <div className="bg-white w-full rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="px-2 py-4 md:p-6 space-y-4">
-        <div className="flex flex-col gap-1 px-3">
+      <div className="px-2 py-4 md:p-6">
+        <div className="flex flex-col gap-1 p-2">
           <div className="flex items-center justify-between ">
             <h1 className="text-3xl font-bold flex items-center gap-2 text-gray-900">
               {/* <History className="w-5 h-5 text-primary" /> */}
@@ -123,11 +123,11 @@ export function PodcastHistory({
             </p>
           </div>
         </div>
-        <div className="px-2">
+        <div className="p-2">
           <LoadAndErrorButton />
         </div>
 
-        <div className="mx-4">
+        <div className="p-1">
           <div className="border-t border-border" />
         </div>
 
@@ -139,21 +139,24 @@ export function PodcastHistory({
             className="w-full"
           />
         )} */}
-        <motion.div
-          initial={false}
-          animate={{
-            height: showSearch ? height : "0px",
-          }}
-          className="px-3 overflow-hidden text-slate-600"
-        >
-          <Input
-            placeholder="Search episodes..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full"
-            ref={ref}
-          />
-        </motion.div>
+        <div className="">
+          <motion.div
+            initial={false}
+            animate={{
+              height: showSearch ? height : "0px",
+              marginTop: showSearch ? "10px" : "0px",
+            }}
+            className="px-3 overflow-hidden text-slate-600"
+          >
+            <Input
+              placeholder="Search episodes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full"
+              ref={ref}
+            />
+          </motion.div>
+        </div>
 
         <ScrollArea className="h-[60vh] lg:h-[75vh]">
           <div className="pb-4">
