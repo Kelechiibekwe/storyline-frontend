@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import SaveButton from "./SaveButton";
 import { LoadAndErrorButton } from "./load-button";
+import useMeasure from "react-use-measure";
+import { motion } from "framer-motion";
 
 type HistoryItem = {
   id: number;
@@ -42,6 +44,7 @@ export function PodcastHistory({
   const [searchQuery, setSearchQuery] = useState("");
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
   const [loading, setLoading] = useState(false);
+  const [ref, { height }] = useMeasure();
 
   // Fetch recent episodes from API
   useEffect(() => {
@@ -124,18 +127,33 @@ export function PodcastHistory({
           <LoadAndErrorButton />
         </div>
 
-        <div className="mx-4 my-3">
+        <div className="mx-4">
           <div className="border-t border-border" />
         </div>
 
-        {showSearch && (
+        {/* {showSearch && (
           <Input
             placeholder="Search episodes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full"
           />
-        )}
+        )} */}
+        <motion.div
+          initial={false}
+          animate={{
+            height: showSearch ? height : "0px",
+          }}
+          className="px-3 overflow-hidden text-slate-600"
+        >
+          <Input
+            placeholder="Search episodes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
+            ref={ref}
+          />
+        </motion.div>
 
         <ScrollArea className="h-[60vh] lg:h-[75vh]">
           <div className="pb-4">
