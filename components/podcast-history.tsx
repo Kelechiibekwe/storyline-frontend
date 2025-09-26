@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Plus,
   SearchCheck,
+  MoreHorizontal,
 } from "lucide-react";
 import SaveButton from "./SaveButton";
 import { LoadAndErrorButton } from "./load-button";
@@ -128,7 +129,7 @@ export function PodcastHistory({
           <LoadAndErrorButton />
           <button
             onClick={() => setShowSearch(!showSearch)}
-            className={`relative rounded-full px-4 py-2 font-medium text-sm transition-all bg-gray-200`}
+            className={`relative rounded-full px-4 py-2 font-medium text-sm transition-all bg-gray-200 hover:bg-gray-300`}
           >
             <span className="flex flex-row gap-1 items-center">
               <Search size={16} />
@@ -152,7 +153,8 @@ export function PodcastHistory({
             initial={false}
             animate={{
               height: showSearch ? height : "0px",
-              marginTop: showSearch ? "10px" : "0px",
+              marginTop: showSearch ? "14px" : "0px",
+              marginBottom: showSearch ? "14px" : "0px",
             }}
             className="px-3 overflow-hidden text-slate-600"
           >
@@ -243,10 +245,10 @@ export function PodcastHistory({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="flex-shrink-0 h-10 w-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white"
+                          className="flex-shrink-0 h-10 w-10 rounded-full bg-white hover:bg-gray-50"
                           onClick={() => onPlayEpisode(episode.id)}
                         >
-                          <PlayCircle className="w-5 w-5" />
+                          <MoreHorizontal className="w-5 h-5" />
                         </Button>
                       </div>
                     </div>

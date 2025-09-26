@@ -98,9 +98,9 @@ const NavbarMobileDashboard: React.FC<NavbarMobileDashboardProps> = ({}) => {
           </div>
         </div> */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="w-9 h-9">
+          {/* <Button variant="ghost" size="icon" className="w-9 h-9">
             <Search className="w-5 h-5" />
-          </Button>
+          </Button> */}
           <Button variant="ghost" size="icon" className="w-9 h-9">
             <MoreHorizontal className="w-5 h-5" />
           </Button>
