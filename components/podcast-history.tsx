@@ -12,6 +12,7 @@ import {
   PlayCircle,
   TrendingUp,
   Plus,
+  SearchCheck,
 } from "lucide-react";
 import SaveButton from "./SaveButton";
 import { LoadAndErrorButton } from "./load-button";
@@ -98,7 +99,7 @@ export function PodcastHistory({
             </span> */}
             </h1>
             {/* <LoadAndErrorButton /> */}
-            <Button
+            {/* <Button
               variant="ghost"
               size="sm"
               className="text-gray-500 hover:text-gray-700"
@@ -109,7 +110,7 @@ export function PodcastHistory({
               ) : (
                 <Search className="h-4 w-4" />
               )}
-            </Button>
+            </Button> */}
           </div>
           <div className="flex flex-row gap-2 items-center">
             <div className="flex items-center">
@@ -123,14 +124,21 @@ export function PodcastHistory({
             </p>
           </div>
         </div>
-        <div className="p-2">
+        <div className="p-2 flex flex-row gap-3">
           <LoadAndErrorButton />
+          <button
+            onClick={() => setShowSearch(!showSearch)}
+            className={`relative rounded-full px-4 py-2 font-medium text-sm transition-all bg-gray-200`}
+          >
+            <span className="flex flex-row gap-1 items-center">
+              <Search size={16} />
+              Search
+            </span>
+          </button>
         </div>
-
-        <div className="p-1">
+        {/* <div className="p-1">
           <div className="border-t border-border" />
-        </div>
-
+        </div> */}
         {/* {showSearch && (
           <Input
             placeholder="Search episodes..."
@@ -157,7 +165,6 @@ export function PodcastHistory({
             />
           </motion.div>
         </div>
-
         <ScrollArea className="h-[60vh] lg:h-[75vh]">
           <div className="pb-4">
             {loading ? (
