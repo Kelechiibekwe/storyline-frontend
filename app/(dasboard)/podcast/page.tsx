@@ -8,6 +8,7 @@ import type { PlaylistItem } from "@/types/music";
 import SaveButton from "@/components/SaveButton";
 import { Loader } from "lucide-react";
 import { BarLoader } from "react-spinners";
+import DragCloseDrawer from "@/components/DragCloseDrawer";
 
 type HistoryItem = {
   id: number;
@@ -22,7 +23,12 @@ export default function Home() {
   const [playlist, setPlaylist] = useState<PlaylistItem[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
   const musicPlayerRef = useRef<any>(null);
+
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [queue, setQueue] = useState<PlaylistItem[]>(playlist);
+  const currentSong = queue[currentSongIndex];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,6 +90,10 @@ export default function Home() {
     // This would typically open a modal or navigate to a generation page
   };
 
+  const handleOpenModal = () => {
+    setOpen((pv) => !pv);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -116,6 +126,7 @@ export default function Home() {
               history={history}
               onPlayEpisode={handlePlayEpisode}
               onAddToQueue={handleAddToQueue}
+              onOpen={handleOpenModal}
             />
           </div>
 
@@ -180,6 +191,29 @@ export default function Home() {
           />
         </div>
       )}
+
+      <DragCloseDrawer open={open} setOpen={setOpen} depth={"25vh"}>
+        <div className="mx-auto max-w-2xl space-y-4 ">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center space-x-3 flex-1 min-w-0">
+              <div className="relative">
+                <img
+                  src={"/placeholder.svg"}
+                  // alt={currentSong.title}
+                  className="w-12 h-12 rounded-lg object-cover shadow-md"
+                />
+                <div className="absolute inset-0 bg-black/20 rounded-lg"></div>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold truncate ">Test</p>
+                <p className="text-xs truncate text-muted-foreground">Test</p>
+              </div>
+            </div>
+          </div>
+          <p>Play</p>
+          <p>Delete</p>
+        </div>
+      </DragCloseDrawer>
     </div>
   );
 }

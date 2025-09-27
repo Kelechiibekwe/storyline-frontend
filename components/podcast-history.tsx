@@ -35,12 +35,14 @@ type PodcastHistoryProps = {
   history: HistoryItem[];
   onPlayEpisode: (episodeId: number) => void;
   onAddToQueue?: (episode: any) => void;
+  onOpen: () => void;
 };
 
 export function PodcastHistory({
   history: initialHistory,
   onPlayEpisode,
   onAddToQueue,
+  onOpen,
 }: PodcastHistoryProps) {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -246,7 +248,7 @@ export function PodcastHistory({
                           variant="ghost"
                           size="icon"
                           className="flex-shrink-0 h-10 w-10 rounded-full bg-white hover:bg-gray-50"
-                          onClick={() => onPlayEpisode(episode.id)}
+                          onClick={onOpen}
                         >
                           <MoreHorizontal className="w-5 h-5" />
                         </Button>
