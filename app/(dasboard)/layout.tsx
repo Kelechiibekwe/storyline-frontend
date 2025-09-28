@@ -13,10 +13,6 @@ export default function AppSectionLayout({
 }) {
   return (
     <div className="relative">
-      {/* <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-        <BarLoader />
-      </div> */}
-
       {/* Mobile View */}
       <header className="block md:hidden">
         <NavbarMobileDashboard />

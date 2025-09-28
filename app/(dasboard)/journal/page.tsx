@@ -10,6 +10,7 @@ import { EntryHistory } from "@/components/tiptap/entry-history";
 import { BarLoader } from "react-spinners";
 import { useMediaQuery } from "@/hooks/use-media-querry";
 import EntrylistMobile from "@/components/entrylist-mobile";
+import BarLoaderExample from "@/components/BarLoader";
 // import StackedNotifications from "@/components/stacked-notification"
 
 const FLASK_API_URL =
@@ -118,8 +119,8 @@ export default function Home() {
     // On the *very first server render*, just render an empty placeholder
     // so that the HTML matches on the client before hydration.
     return (
-      <div className="h-[500px] flex items-center justify-center">
-        <BarLoader />
+      <div className="relative">
+        <BarLoaderExample />
       </div>
     );
   }

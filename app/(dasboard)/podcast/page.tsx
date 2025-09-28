@@ -9,6 +9,7 @@ import SaveButton from "@/components/SaveButton";
 import { Loader } from "lucide-react";
 import { BarLoader } from "react-spinners";
 import DragCloseDrawer from "@/components/DragCloseDrawer";
+import BarLoaderExample from "@/components/BarLoader";
 
 type HistoryItem = {
   id: number;
@@ -96,8 +97,8 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <BarLoader />
+      <div className="relative">
+        <BarLoaderExample />
       </div>
     );
   }
